@@ -154,3 +154,29 @@ footer {
     header h1 { font-size: 40px; }
     header { padding: 80px 20px; }
 }
+/* Styling the Calculator Card specifically */
+.neon-calc {
+    border: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.result-display {
+    background: rgba(217, 70, 239, 0.1); /* Subtle magenta glow */
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--neon-magenta);
+    margin-top: 10px;
+}
+
+#total-val {
+    font-size: 3rem;
+    color: var(--neon-magenta);
+    text-shadow: 0 0 15px var(--neon-magenta);
+    margin: 0;
+}
+
+/* Making the slider look neon cyan */
+input[type=range] {
+    accent-color: var(--neon-cyan);
+    cursor: pointer;
+}
