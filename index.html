@@ -15,78 +15,100 @@
         nav {
             display: flex;
             justify-content: space-between;
-            padding: 20px 40px;
+            padding: 20px 60px;
             background-color: #0f172a;
             position: sticky;
             top: 0;
+            z-index: 1000;
         }
 
         nav a {
             color: #94a3b8;
             text-decoration: none;
-            margin-left: 20px;
+            margin-left: 25px;
             font-weight: 500;
+            transition: 0.3s;
         }
 
         nav a:hover {
-            color: white;
+            color: #3b82f6;
         }
 
         header {
             text-align: center;
-            padding: 120px 20px;
+            padding: 160px 20px;
             background: linear-gradient(135deg, #0f172a, #1e293b);
         }
 
         header h1 {
-            font-size: 48px;
-            margin: 0;
+            font-size: 46px;
+            margin: 10px 0;
         }
 
         header p {
             font-size: 20px;
             color: #94a3b8;
             margin-top: 15px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 14px 30px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
         }
 
         section {
             max-width: 900px;
             margin: auto;
-            padding: 80px 20px;
+            padding: 100px 20px;
         }
 
         h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 30px;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         .card {
             background-color: #1e293b;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 25px;
+            padding: 35px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            transition: 0.3s;
         }
 
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: #3b82f6;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .button:hover {
-            background: #2563eb;
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0px 12px 35px rgba(0,0,0,0.4);
         }
 
         footer {
             text-align: center;
-            padding: 40px;
+            padding: 50px;
             background-color: #020617;
             color: #64748b;
+        }
+
+        a {
+            color: #3b82f6;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -104,8 +126,11 @@
 </nav>
 
 <header>
-    <h1>Fintech & Corporate Finance Graduate</h1>
-    <p>Focused on Digital Financial Strategy, Growth & Valuation</p>
+    <h1>Shivika Arora</h1>
+    <p>
+        BSc Finance Graduate | Fintech Strategy | M&A & Valuation |
+        Digital Financial Ecosystems & Growth Analysis
+    </p>
     <a href="research.html" class="button">View Research Project</a>
 </header>
 
@@ -113,12 +138,16 @@
     <h2>About</h2>
     <div class="card">
         <p>
-        BSc Finance graduate from Bayes Business School with a strong focus on fintech strategy,
-        valuation, and digital financial ecosystems.
+            BSc Finance graduate from Bayes Business School with a strong analytical focus on
+            fintech-driven M&A, takeover premiums, and technology-enabled financial growth.
         </p>
         <p>
-        Particularly interested in payments, embedded finance models,
-        fintech M&A strategy, and financial growth optimisation.
+            Research concentrated on cross-border fintech acquisitions (2010–2024),
+            valuation dynamics, and strategic deal behaviour across emerging digital markets.
+        </p>
+        <p>
+            Career interests include fintech corporate strategy, financial analysis,
+            transaction advisory, growth finance, and digital financial transformation.
         </p>
     </div>
 </section>
@@ -128,20 +157,39 @@
 
     <div class="card">
         <h3>Accounting Assistant – RSK Agencies</h3>
-        <p>Improved working capital efficiency by reducing receivables by 15%. Supported P&L reporting and financial analysis.</p>
+        <p>
+            Analysed receivables and improved working capital efficiency, reducing outstanding
+            balances by 15%. Supported P&L reporting, financial reconciliation, and internal
+            cost tracking processes.
+        </p>
     </div>
 
     <div class="card">
         <h3>Finance & Communications Head – City International Students Society</h3>
-        <p>Managed budgeting and financial allocation across student initiatives and large-scale events.</p>
+        <p>
+            Oversaw budgeting, financial planning, and allocation strategy for multiple
+            large-scale events. Managed financial transparency and cost optimisation
+            across student initiatives.
+        </p>
     </div>
 </section>
 
 <section id="contact">
     <h2>Contact</h2>
     <div class="card">
-        <p>Email: your.email@email.com</p>
-        <p>LinkedIn: <a href="https://linkedin.com" target="_blank">Your LinkedIn</a></p>
+        <p>
+            Email:
+            <a href="mailto:Shivikada14@gmail.com">
+                Shivikada14@gmail.com
+            </a>
+        </p>
+
+        <p>
+            LinkedIn:
+            <a href="https://www.linkedin.com/in/shivika14/" target="_blank">
+                https://www.linkedin.com/in/shivika14/
+            </a>
+        </p>
     </div>
 </section>
 
