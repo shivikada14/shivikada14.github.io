@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <title>Shivika Arora | BSc Finance Graduate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Link to CSS -->
     <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-
 <nav>
     <div><strong>Shivika Arora</strong></div>
     <div>
         <a href="./experience.html">Experience</a>
         <a href="./research.html">Research</a>
-        
-</div>
+        <a href="./dashboard.html" class="nav-highlight">Dashboard</a>
         <a href="./contact.html">Contact</a>
     </div>
 </nav>
@@ -31,26 +26,92 @@
 
 <div class="section">
     <h2>About</h2>
-
     <div class="card">
         <p>
             BSc Finance graduate from Bayes Business School with a strong academic and practical foundation in corporate finance, financial strategy, and fintech. Experience spans financial reporting, budgeting, working capital optimisation, and performance analysis across both corporate and growth-oriented environments.
         </p>
-
         <p>
             Developed strong analytical capability in valuation, financial modelling, and strategic decision-making through professional roles and empirical research. Particularly interested in transaction advisory, corporate finance strategy, and technology-driven financial services.
         </p>
-
         <p>
             Post-Study Work Visa valid until 2027.
         </p>
     </div>
 </div>
 
+<!-- ===== FINTECH TEASER WIDGET ===== -->
+<div class="section">
+    <h2>FinTech Dashboard <span class="live-badge">LIVE</span></h2>
+    <div class="teaser-grid">
+
+        <!-- KPI Cards -->
+        <div class="kpi-card">
+            <div class="kpi-label">S&amp;P 500</div>
+            <div class="kpi-value" id="kpi-sp500">5,842.47</div>
+            <div class="kpi-change positive" id="kpi-sp500-chg">▲ +1.23%</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">FTSE 100</div>
+            <div class="kpi-value" id="kpi-ftse">8,312.10</div>
+            <div class="kpi-change positive" id="kpi-ftse-chg">▲ +0.87%</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">BTC / USD</div>
+            <div class="kpi-value" id="kpi-btc">$97,204</div>
+            <div class="kpi-change negative" id="kpi-btc-chg">▼ -0.45%</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Market Sentiment</div>
+            <div class="kpi-value sentiment-value" id="kpi-sentiment">BULLISH</div>
+            <div class="kpi-change positive">Fear &amp; Greed: 72</div>
+        </div>
+
+        <!-- CTA to dashboard -->
+        <a href="./dashboard.html" class="teaser-cta-card">
+            <div class="cta-icon">⚡</div>
+            <div class="cta-title">Open Full Dashboard</div>
+            <div class="cta-sub">AI Sentiment · Portfolio Simulator · Live Charts</div>
+            <div class="cta-arrow">→</div>
+        </a>
+
+    </div>
+</div>
+
 <footer>
     © 2026 Shivika Arora | BSc Finance Graduate
 </footer>
+
 <script src="script.js"></script>
-</body>
+<script>
+// Animate KPI values with subtle fluctuations
+function randomFluctuation(base, pct) {
+    const delta = base * pct * (Math.random() - 0.5) * 2;
+    return base + delta;
+}
+
+const kpiData = {
+    sp500:  { base: 5842.47, el: 'kpi-sp500', chgEl: 'kpi-sp500-chg', fmt: v => v.toFixed(2) },
+    ftse:   { base: 8312.10, el: 'kpi-ftse',  chgEl: 'kpi-ftse-chg',  fmt: v => v.toFixed(2) },
+    btc:    { base: 97204,   el: 'kpi-btc',   chgEl: 'kpi-btc-chg',   fmt: v => '$' + Math.round(v).toLocaleString() },
+};
+
+setInterval(() => {
+    Object.values(kpiData).forEach(d => {
+        const newVal = randomFluctuation(d.base, 0.002);
+        const chg = ((newVal - d.base) / d.base * 100);
+        const el = document.getElementById(d.el);
+        const chgEl = document.getElementById(d.chgEl);
+        if (el) {
+            el.textContent = d.fmt(newVal);
+            el.classList.add('flash');
+            setTimeout(() => el.classList.remove('flash'), 400);
+        }
+        if (chgEl) {
+            chgEl.textContent = chg >= 0 ? `▲ +${chg.toFixed(2)}%` : `▼ ${chg.toFixed(2)}%`;
+            chgEl.className = 'kpi-change ' + (chg >= 0 ? 'positive' : 'negative');
+        }
+    });
+}, 3000);
+</script>
 </body>
 </html>
