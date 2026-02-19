@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shivika Arora | FinTech Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+<nav>
+    <div><strong>Shivika Arora</strong></div>
+    <div>
+        <a href="./index.html">Home</a>
+        <a href="./experience.html">Experience</a>
+        <a href="./research.html">Research</a>
+        <a href="./dashboard.html" class="nav-highlight">Dashboard</a>
+        <a href="./contact.html">Contact</a>
+    </div>
+</nav>
+
+<header style="padding-bottom: 20px;">
+    <h1>FinTech Dashboard</h1>
+    <div class="profile-line">AI-Powered Market Intelligence & Portfolio Analytics</div>
+</header>
+
+<!-- ===== LIVE KPI BAR ===== -->
+<div class="kpi-bar">
+    <div class="kpi-bar-item">
+        <span class="kpi-bar-label">S&amp;P 500</span>
+        <span class="kpi-bar-val" id="db-sp500">5,842.47</span>
+        <span class="kpi-bar-chg positive" id="db-sp500-chg">▲ +1.23%</span>
+    </div>
+    <div class="kpi-bar-divider"></div>
+    <div class="kpi-bar-item">
+        <span class="kpi-bar-label">FTSE 100</span>
+        <span class="kpi-bar-val" id="db-ftse">8,312.10</span>
+        <span class="kpi-bar-chg positive" id="db-ftse-chg">▲ +0.87%</span>
+    </div>
+    <div class="kpi-bar-divider"></div>
+    <div class="kpi-bar-item">
+        <span class="kpi-bar-label">BTC/USD</span>
+        <span class="kpi-bar-val" id="db-btc">$97,204</span>
+        <span class="kpi-bar-chg negative" id="db-btc-chg">▼ -0.45%</span>
+    </div>
+    <div class="kpi-bar-divider"></div>
+    <div class="kpi-bar-item">
+        <span class="kpi-bar-label">10Y Treasury</span>
+        <span class="kpi-bar-val">4.28%</span>
+        <span class="kpi-bar-chg negative">▼ -0.03%</span>
+    </div>
+    <div class="kpi-bar-divider"></div>
+    <div class="kpi-bar-item">
+        <span class="kpi-bar-label">VIX</span>
+        <span class="kpi-bar-val" id="db-vix">14.2</span>
+        <span class="kpi-bar-chg positive">▲ LOW VOL</span>
+    </div>
+</div>
+
+<!-- ===== TWO-COLUMN LAYOUT ===== -->
+<div class="dashboard-layout">
+
+    <!-- LEFT: AI SENTIMENT ANALYSER -->
+    <div class="dashboard-panel">
+        <div class="panel-header">
+            <span class="panel-icon">🧠</span>
+            <span class="panel-title">AI Stock Sentiment Analyser</span>
+            <span class="panel-badge">Powered by Claude AI</span>
+        </div>
+
+        <div class="sentiment-input-row">
+            <input type="text" id="stock-input" class="terminal-input" placeholder="Enter company (e.g. Apple, Tesla, HSBC...)" />
+            <button class="terminal-btn" id="analyse-btn" onclick="analyseStock()">ANALYSE ⚡</button>
+        </div>
+
+        <div id="sentiment-result" class="sentiment-result hidden">
+            <div class="sentiment-score-row">
+                <div class="sentiment-gauge-wrap">
+                    <canvas id="gaugeCanvas" width="200" height="110"></canvas>
+                    <div class="gauge-label" id="gauge-label">—</div>
+                </div>
+                <div class="sentiment-meta">
+                    <div class="sentiment-company" id="sentiment-company">—</div>
+                    <div class="sentiment-verdict" id="sentiment-verdict">—</div>
+                    <div class="sentiment-score-display">
+                        Score: <span id="sentiment-score-num" class="score-num">—</span><span style="color:var(--text-slate)">/100</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sentiment-breakdown" id="sentiment-breakdown"></div>
+        </div>
+
+        <div id="sentiment-loading" class="loading-state hidden">
+            <div class="terminal-loader">
+                <span class="loader-dot">▮</span> Analysing market signals<span class="ellipsis"></span>
+            </div>
+        </div>
+
+        <div id="sentiment-error" class="error-state hidden">
+            ⚠ Analysis failed. Please try again.
+        </div>
+    </div>
+
+    <!-- RIGHT: PORTFOLIO SIMULATOR -->
+    <div class="dashboard-panel">
+        <div class="panel-header">
+            <span class="panel-icon">📊</span>
+            <span class="panel-title">Portfolio Simulator</span>
+            <span class="panel-badge">Interactive</span>
+        </div>
+
+        <div class="slider-section">
+            <div class="slider-row">
+                <label>Equities <span class="asset-tag eq">EQ</span></label>
+                <input type="range" min="0" max="100" value="50" id="sl-eq" oninput="updatePortfolio()">
+                <span class="slider-val" id="val-eq">50%</span>
+            </div>
+            <div class="slider-row">
+                <label>Bonds <span class="asset-tag bd">FI</span></label>
+                <input type="range" min="0" max="100" value="25" id="sl-bd" oninput="updatePortfolio()">
+                <span class="slider-val" id="val-bd">25%</span>
+            </div>
+            <div class="slider-row">
+                <label>Crypto <span class="asset-tag cr">CRYPTO</span></label>
+                <input type="range" min="0" max="100" value="10" id="sl-cr" oninput="updatePortfolio()">
+                <span class="slider-val" id="val-cr">10%</span>
+            </div>
+            <div class="slider-row">
+                <label>Real Estate <span class="asset-tag re">REIT</span></label>
+                <input type="range" min="0" max="100" value="10" id="sl-re" oninput="updatePortfolio()">
+                <span class="slider-val" id="val-re">10%</span>
+            </div>
+            <div class="slider-row">
+                <label>Cash <span class="asset-tag ca">CASH</span></label>
+                <input type="range" min="0" max="100" value="5" id="sl-ca" oninput="updatePortfolio()">
+                <span class="slider-val" id="val-ca">5%</span>
+            </div>
+
+            <div class="allocation-total" id="alloc-total">
+                Total: <span id="total-pct">100%</span>
+            </div>
+        </div>
+
+        <!-- Risk/Return output -->
+        <div class="portfolio-metrics">
+            <div class="pm-card">
+                <div class="pm-label">Expected Annual Return</div>
+                <div class="pm-val positive" id="pm-return">+8.4%</div>
+            </div>
+            <div class="pm-card">
+                <div class="pm-label">Portfolio Volatility (σ)</div>
+                <div class="pm-val" id="pm-vol">12.3%</div>
+            </div>
+            <div class="pm-card">
+                <div class="pm-label">Sharpe Ratio</div>
+                <div class="pm-val" id="pm-sharpe">0.68</div>
+            </div>
+            <div class="pm-card">
+                <div class="pm-label">Risk Profile</div>
+                <div class="pm-val" id="pm-risk">Moderate</div>
+            </div>
+        </div>
+
+        <div class="chart-wrap">
+            <canvas id="portfolioChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2026 Shivika Arora | BSc Finance Graduate
+</footer>
+
+<script>
+// ========== KPI FLUCTUATIONS ==========
+const kpiDefs = {
+    sp500: { base: 5842.47, fmt: v => v.toFixed(2) },
+    ftse:  { base: 8312.10, fmt: v => v.toFixed(2) },
+    btc:   { base: 97204,   fmt: v => '$' + Math.round(v).toLocaleString() },
+    vix:   { base: 14.2,    fmt: v => v.toFixed(1) },
+};
+setInterval(() => {
+    Object.entries(kpiDefs).forEach(([k, d]) => {
+        const newVal = d.base + d.base * 0.002 * (Math.random() - 0.5) * 2;
+        const chg = (newVal - d.base) / d.base * 100;
+        const el = document.getElementById('db-' + k);
+        if (el) el.textContent = d.fmt(newVal);
+        const chgEl = document.getElementById('db-' + k + '-chg');
+        if (chgEl) {
+            chgEl.textContent = chg >= 0 ? `▲ +${Math.abs(chg).toFixed(2)}%` : `▼ -${Math.abs(chg).toFixed(2)}%`;
+            chgEl.className = 'kpi-bar-chg ' + (chg >= 0 ? 'positive' : 'negative');
+        }
+    });
+}, 3000);
+
+// ========== AI SENTIMENT ANALYSER ==========
+async function analyseStock() {
+    const input = document.getElementById('stock-input').value.trim();
+    if (!input) return;
+
+    document.getElementById('sentiment-result').classList.add('hidden');
+    document.getElementById('sentiment-error').classList.add('hidden');
+    document.getElementById('sentiment-loading').classList.remove('hidden');
+    document.getElementById('analyse-btn').disabled = true;
+
+    const prompt = `You are a financial analyst AI. Analyse the market sentiment for "${input}" as a company/stock.
+
+Respond ONLY with a valid JSON object in this exact format (no markdown, no explanation):
+{
+  "company": "Full Company Name",
+  "ticker": "TICKER",
+  "score": 72,
+  "verdict": "BULLISH",
+  "summary": "One sentence overall sentiment summary.",
+  "factors": [
+    {"label": "Revenue Growth", "score": 80, "note": "Short note"},
+    {"label": "Market Position", "score": 75, "note": "Short note"},
+    {"label": "Macro Headwinds", "score": 55, "note": "Short note"},
+    {"label": "Innovation Pipeline", "score": 70, "note": "Short note"}
+  ]
+}
+
+Score is 0-100 (0=very bearish, 50=neutral, 100=very bullish). Verdict: BEARISH / NEUTRAL / BULLISH / VERY BULLISH / VERY BEARISH.`;
+
+    try {
+        const resp = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 600,
+                messages: [{ role: 'user', content: prompt }]
+            })
+        });
+        const data = await resp.json();
+        const text = data.content[0].text.trim();
+        const json = JSON.parse(text);
+        renderSentiment(json);
+    } catch(e) {
+        document.getElementById('sentiment-error').classList.remove('hidden');
+    } finally {
+        document.getElementById('sentiment-loading').classList.add('hidden');
+        document.getElementById('analyse-btn').disabled = false;
+    }
+}
+
+document.getElementById('stock-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') analyseStock();
+});
+
+function renderSentiment(d) {
+    document.getElementById('sentiment-company').textContent = `${d.company} (${d.ticker})`;
+    document.getElementById('gauge-label').textContent = d.verdict;
+    document.getElementById('gauge-label').className = 'gauge-label ' + verdictClass(d.verdict);
+    document.getElementById('sentiment-verdict').textContent = d.summary;
+    document.getElementById('sentiment-score-num').textContent = d.score;
+    document.getElementById('sentiment-score-num').style.color = scoreColor(d.score);
+
+    // Draw gauge
+    drawGauge(d.score);
+
+    // Factors breakdown
+    const wrap = document.getElementById('sentiment-breakdown');
+    wrap.innerHTML = d.factors.map(f => `
+        <div class="factor-row">
+            <div class="factor-top">
+                <span class="factor-label">${f.label}</span>
+                <span class="factor-score" style="color:${scoreColor(f.score)}">${f.score}/100</span>
+            </div>
+            <div class="factor-bar-bg">
+                <div class="factor-bar-fill" style="width:${f.score}%;background:${scoreColor(f.score)}"></div>
+            </div>
+            <div class="factor-note">${f.note}</div>
+        </div>
+    `).join('');
+
+    document.getElementById('sentiment-result').classList.remove('hidden');
+}
+
+function verdictClass(v) {
+    if (v.includes('BULLISH')) return 'positive';
+    if (v.includes('BEARISH')) return 'negative';
+    return '';
+}
+
+function scoreColor(s) {
+    if (s >= 65) return '#22d3ee';
+    if (s >= 45) return '#f59e0b';
+    return '#f43f5e';
+}
+
+function drawGauge(score) {
+    const canvas = document.getElementById('gaugeCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 200, 110);
+
+    const cx = 100, cy = 100, r = 80;
+    const startAngle = Math.PI;
+    const endAngle = 2 * Math.PI;
+
+    // Background arc
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, startAngle, endAngle);
+    ctx.lineWidth = 16;
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    // Score arc
+    const scoreAngle = startAngle + (score / 100) * Math.PI;
+    const grad = ctx.createLinearGradient(20, 100, 180, 100);
+    grad.addColorStop(0, '#f43f5e');
+    grad.addColorStop(0.5, '#f59e0b');
+    grad.addColorStop(1, '#22d3ee');
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, startAngle, scoreAngle);
+    ctx.lineWidth = 16;
+    ctx.strokeStyle = grad;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+}
+
+// ========== PORTFOLIO SIMULATOR ==========
+const assetParams = {
+    eq: { ret: 0.10, vol: 0.18, color: '#22d3ee' },
+    bd: { ret: 0.04, vol: 0.05, color: '#d946ef' },
+    cr: { ret: 0.25, vol: 0.70, color: '#f59e0b' },
+    re: { ret: 0.07, vol: 0.12, color: '#10b981' },
+    ca: { ret: 0.05, vol: 0.01, color: '#94a3b8' },
+};
+const rfRate = 0.04;
+
+let donutChart = null;
+
+function updatePortfolio() {
+    const ids = ['eq','bd','cr','re','ca'];
+    const vals = ids.map(id => parseFloat(document.getElementById('sl-' + id).value));
+    const total = vals.reduce((a,b)=>a+b,0);
+
+    ids.forEach((id, i) => {
+        document.getElementById('val-' + id).textContent = vals[i] + '%';
+    });
+
+    const totalEl = document.getElementById('total-pct');
+    totalEl.textContent = total + '%';
+    totalEl.style.color = Math.abs(total - 100) > 5 ? '#f43f5e' : '#22d3ee';
+
+    if (total === 0) return;
+    const weights = vals.map(v => v / total);
+
+    let portRet = 0, portVol = 0;
+    ids.forEach((id, i) => {
+        portRet += weights[i] * assetParams[id].ret;
+        portVol += Math.pow(weights[i] * assetParams[id].vol, 2);
+    });
+    portVol = Math.sqrt(portVol);
+    const sharpe = (portRet - rfRate) / portVol;
+
+    document.getElementById('pm-return').textContent = (portRet >= 0 ? '+' : '') + (portRet * 100).toFixed(1) + '%';
+    document.getElementById('pm-return').className = 'pm-val ' + (portRet >= 0 ? 'positive' : 'negative');
+    document.getElementById('pm-vol').textContent = (portVol * 100).toFixed(1) + '%';
+    document.getElementById('pm-sharpe').textContent = sharpe.toFixed(2);
+
+    let risk = 'Conservative';
+    if (portVol > 0.3) risk = 'Very High Risk';
+    else if (portVol > 0.18) risk = 'High Risk';
+    else if (portVol > 0.10) risk = 'Moderate';
+    else if (portVol > 0.05) risk = 'Low-Moderate';
+    document.getElementById('pm-risk').textContent = risk;
+
+    // Donut chart
+    const labels = ['Equities','Bonds','Crypto','Real Estate','Cash'];
+    const colors = ids.map(id => assetParams[id].color);
+
+    if (donutChart) {
+        donutChart.data.datasets[0].data = vals;
+        donutChart.update();
+    } else {
+        const ctx = document.getElementById('portfolioChart').getContext('2d');
+        donutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels,
+                datasets: [{
+                    data: vals,
+                    backgroundColor: colors.map(c => c + 'cc'),
+                    borderColor: colors,
+                    borderWidth: 2,
+                    hoverOffset: 8,
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8', font: { size: 12 }, padding: 16 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ` ${ctx.label}: ${ctx.raw}%`
+                        }
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Init
+updatePortfolio();
+</script>
+</body>
+</html>
