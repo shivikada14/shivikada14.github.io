@@ -414,6 +414,16 @@ header h1 {
     100% { content: '...'; }
 }
 .error-state { color: var(--negative); font-size: 14px; padding: 16px 0; }
+.demo-hint {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-slate);
+    margin-bottom: 20px;
+    padding: 8px 12px;
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+}
 
 /* ===== PORTFOLIO SIMULATOR ===== */
 .slider-section { margin-bottom: 24px; }
